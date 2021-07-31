@@ -12,7 +12,7 @@ public class Palindrom {
             for (int i = array.length - 1; i >= 0; i--) {
                 result.append(array[i]);
             }
-            if(word.equals(result.toString()))
+            if (word.equals(result.toString()))
                 System.out.print(word);
         }
 
