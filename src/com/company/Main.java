@@ -1,8 +1,6 @@
 package com.company;
 
-import java.io.IOException;
-
-import static jdk.nashorn.internal.objects.NativeString.substring;
+import java.io.*;
 
 public class Main {
 
@@ -22,7 +20,7 @@ public class Main {
 позиции 0 */
         char firstSymbol = sentence.charAt(3);
         char secondSymbol = sentence.charAt(0);
-        System.out.println(sentence.replaceAll(String.valueOf(firstSymbol),String.valueOf(secondSymbol)));
+        System.out.println(sentence.replaceAll(String.valueOf(firstSymbol), String.valueOf(secondSymbol)));
 
         System.out.println("");
 
@@ -47,7 +45,28 @@ public class Main {
 Разбиваем текст на предложения. Используя методы класса TextFormater
 определяем подходит ли нам предложение. Если подходит добавляем его в
 новый файл*/
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream("src/com/company/in.txt")));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("src/com/company/out.txt"));
 
+        String source = "";
+        String line = bufferedReader.readLine();
+        while (line != null) {
+            source = source.concat(line);
+            line = bufferedReader.readLine();
+        }
 
+        String[] countSentences = TextFormater.countSentences(source);
+        for (String tmpSentence : countSentences) {
+            tmpSentence = tmpSentence.trim();
+            int countWordInSentence = TextFormater.countWords(tmpSentence);
+            if ((countWordInSentence > 2 && countWordInSentence < 6) ||
+                    TextFormater.checkPalindrome(tmpSentence)) {
+                bufferedWriter.write(tmpSentence + ".");
+                bufferedWriter.newLine();
+            }
+        }
+        bufferedWriter.flush();
+        bufferedReader.close();
+        bufferedWriter.close();
     }
 }
